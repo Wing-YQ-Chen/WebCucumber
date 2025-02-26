@@ -10,7 +10,6 @@ pipeline {
             }
         }
 
-
 		stage('Run Testing') {
 			steps {
 				bat """
