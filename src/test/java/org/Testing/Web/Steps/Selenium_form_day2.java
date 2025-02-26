@@ -10,21 +10,32 @@ import org.openqa.selenium.TakesScreenshot;
 
 public class Selenium_form_day2 {
 
+    WebDriver driver;
     SeleniumFromPage sfPage;
-
     private Scenario scenario;
 
     @Before
     public void beforeScenario(Scenario scenario) {
+        ChromeOptions options = new ChromeOptions();
+        this.driver = new RemoteWebDriver(options);
+        this.driver.manage().window().maximize();
         this.scenario = scenario;
+    }
+
+    @After
+    public void afterScenario() {
+        this.sfPage.driver.quit();
+    }
+
+    @AfterStep
+    public void afterStep() {
+        TakesScreenshot ts = (TakesScreenshot) this.sfPage.driver;
+        this.scenario.attach(ts.getScreenshotAs(org.openqa.selenium.OutputType.BYTES), "image/png", "Step Screenshot");
     }
 
     @Given("i am on the selenium form page")
     public void i_am_on_the_selenium_form_page() {
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new RemoteWebDriver(options);
-        driver.manage().window().maximize();
-        driver.get("https://seleniumbase.io/demo_page/");
+        this.driver.get("https://seleniumbase.io/demo_page/");
         this.sfPage = new SeleniumFromPage(driver);
     }
 
@@ -35,10 +46,6 @@ public class Selenium_form_day2 {
 
     @Then("i should to see the inputbox is filled {string}")
     public void i_should_to_see_the_inputbox_is_filled(String string) {
-
-        TakesScreenshot ts = (TakesScreenshot) this.sfPage.driver;
-        this.scenario.attach(ts.getScreenshotAs(org.openqa.selenium.OutputType.BYTES), "image/png", "screenshot");
-
         assert this.sfPage.TextareaInputBox.getAttribute("value").equals(string);
     }
 
@@ -49,16 +56,7 @@ public class Selenium_form_day2 {
 
     @Then("i should to see the Read-Only inputbox is changed nothing")
     public void i_should_to_see_the_read_only_inputbox_is_changed_nothing() {
-
-        TakesScreenshot ts = (TakesScreenshot) this.sfPage.driver;
-        this.scenario.attach(ts.getScreenshotAs(org.openqa.selenium.OutputType.BYTES), "image/png", "screenshot");
-
         assert this.sfPage.readOnlyInputBox.getAttribute("value").contains("The Color");
-    }
-
-    @After
-    public void quit() {
-        this.sfPage.driver.quit();
     }
 
 
