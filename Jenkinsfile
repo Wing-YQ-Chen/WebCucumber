@@ -7,7 +7,6 @@ pipeline {
 				bat """
 				mvn clean validate test-compile
                 """
-
             }
         }
 
