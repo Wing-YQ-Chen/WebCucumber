@@ -9,14 +9,18 @@ import org.Testing.Web.Pages.SeleniumFromPage;
 import org.openqa.selenium.TakesScreenshot;
 import io.cucumber.datatable.DataTable;
 
+import java.util.Date;
+
 public class Selenium_form_day2 {
 
     WebDriver driver;
     SeleniumFromPage sfPage;
     private Scenario scenario;
+    long startTime;
 
     @Before
     public void beforeScenario(Scenario scenario) {
+        this.startTime = System.currentTimeMillis();
         ChromeOptions options = new ChromeOptions();
         this.driver = new RemoteWebDriver(options);
         this.driver.manage().window().maximize();
@@ -25,6 +29,12 @@ public class Selenium_form_day2 {
 
     @After
     public void afterScenario() {
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime) / 1000;
+        this.scenario.log("Started at " + new Date(this.startTime));
+        this.scenario.log("Ended at " + new Date(endTime));
+        this.scenario.log("Duration: " + duration + " seconds");
+
         this.sfPage.driver.quit();
     }
 
@@ -38,6 +48,8 @@ public class Selenium_form_day2 {
     public void i_am_on_the_selenium_form_page() {
         this.driver.get("https://seleniumbase.io/demo_page/");
         this.sfPage = new SeleniumFromPage(driver);
+        // 添加步骤描述
+        this.scenario.attach("Step Description: I am on the selenium form page", "text/plain", "Step Description");
     }
 
     @When("i fill in the inputbox with {string}")
@@ -63,7 +75,7 @@ public class Selenium_form_day2 {
 
     @Then("i should to see the Read-Only inputbox is changed nothing")
     public void i_should_to_see_the_read_only_inputbox_is_changed_nothing() {
-        String value = this.sfPage.readOnlyInputBox.getAttribute("value") ;
+        String value = this.sfPage.readOnlyInputBox.getAttribute("value");
         assert value != null && value.contains("The Color");
     }
 
