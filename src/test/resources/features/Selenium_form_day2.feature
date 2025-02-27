@@ -13,7 +13,7 @@ Feature: Selenium_form_day2
       | test@3 |
 
   Scenario: user submits selenium form fail
-    When i fill in the Read-Only inputbox following text
+    When i fill in the Read-Only inputbox with following text
       | test@1 |
       | test@2 |
       | test@3 |

@@ -65,7 +65,7 @@ public class Selenium_form_day2 {
     }
 
 
-    @When("i fill in the Read-Only inputbox following text")
+    @When("i fill in the Read-Only inputbox with following text")
     public void i_fill_in_the_read_only_inputbox_following_text(DataTable dataTable) {
         dataTable.asList().forEach(string -> {
             this.sfPage.readOnlyInputBox.sendKeys(string);
