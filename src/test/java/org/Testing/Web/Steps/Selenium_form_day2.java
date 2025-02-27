@@ -29,13 +29,13 @@ public class Selenium_form_day2 {
 
     @After
     public void afterScenario() {
+        this.sfPage.driver.quit();
+
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime) / 1000;
         this.scenario.log("Started at " + new Date(this.startTime));
         this.scenario.log("Ended at " + new Date(endTime));
         this.scenario.log("Duration: " + duration + " seconds");
-
-        this.sfPage.driver.quit();
     }
 
     @AfterStep
